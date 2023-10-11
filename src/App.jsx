@@ -23,23 +23,25 @@ function App() {
 
 
   useEffect(()=>{
-    main();
-  }, []);
+    tg.ready();
+    tg.expand();
+    tg.MainButton.text = "Send";
+    tg.MainButton.show();
+    
+    tg.MainButton.onClick(async ()=>{
+      if(firstname && lastname && title && age && phone && photo && video && about){
+        const data = await JSON.stringify({type: "add", firstname, lastname, title, age, phone, photo, video, popular, about});
+        await tg.sendData(data);
+        await tg.close()
+      }
+    });
+  }, [firstname, lastname, title, age, phone, photo, video, popular, about]);
 
   const main = async ()=>{
-    await tg.ready();
-    await tg.expand();
-    tg.MainButton.text = await "Send";
-    await tg.MainButton.show();
+  
   }
 
-  tg.MainButton.onClick(async ()=>{
-    if(firstname && lastname && title && age && phone && photo && video && about){
-      const data = await JSON.stringify({type: "add", firstname, lastname, title, age, phone, photo, video, popular, about});
-      await tg.sendData(data);
-      await tg.close()
-    }
-  });
+
  
 
   return (
