@@ -5,7 +5,11 @@ import { Button, Container, Form, InputGroup } from "react-bootstrap";
 import { useEffect } from "react";
 const tg = window.Telegram.WebApp;
 
-
+const sendData = async (firstname, lastname, title, age, phone, photo, video, about, popular) =>{
+  const data = await JSON.stringify({type: "add", firstname, lastname, title, age, phone, photo, video, popular, about});
+  await tg.sendData(data);
+  await tg.close()
+}
 
 function App() {
 
@@ -27,22 +31,7 @@ function App() {
     tg.expand();
     tg.MainButton.text = "Send";
     tg.MainButton.show();
-    
-    tg.MainButton.onClick(async ()=>{
-      if(firstname && lastname && title && age && phone && photo && video && about){
-        const data = await JSON.stringify({type: "add", firstname, lastname, title, age, phone, photo, video, popular, about});
-        await tg.sendData(data);
-        await tg.close()
-      }
-    });
-  }, [firstname, lastname, title, age, phone, photo, video, popular, about]);
-
-  const main = async ()=>{
-  
-  }
-
-
- 
+  }, []);
 
   return (
     <>
@@ -172,7 +161,15 @@ function App() {
             />
           </Form.Group>
 
-
+          <Button className="w-100"
+            onClick={async (event)=>{
+              if(firstname && lastname && title && age && phone && photo && video && about){
+                await sendData(firstname, lastname, title, age, phone, photo, video, about, popular)
+              }
+            }}
+          >
+            Yuborish
+          </Button>
         </Form>
       </Container>
     </>
