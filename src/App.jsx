@@ -24,6 +24,7 @@ function App() {
     tg.ready();
     tg.expand();
     tg.MainButton.text = "Send";
+    tg.MainButton.show();
     tg.MainButton.disable();
   }, [])
 
