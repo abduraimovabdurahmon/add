@@ -5,6 +5,8 @@ import { Button, Container, Form, InputGroup } from "react-bootstrap";
 import { useEffect } from "react";
 const tg = window.Telegram.WebApp;
 
+
+
 function App() {
 
   const [firstname, setFirstname] = useState("");
@@ -25,27 +27,15 @@ function App() {
     tg.expand();
     tg.MainButton.text = "Send";
     tg.MainButton.show();
-    tg.MainButton.disable();
+
+    tg.MainButton.onClick(async ()=>{
+      if(firstname && lastname && title && age && phone && photo && video && about){
+        const data = await JSON.stringify({type: "add", firstname, lastname, title, age, phone, photo, video, popular, about});
+        tg.sendData(data)
+      }
+    })
   }, [])
 
-  useEffect(()=>{
-    if(firstname && lastname && title && age && phone && photo && video && about){
-      tg.MainButton.enable();
-    }
-    // else{
-    //   tg.MainButton.disable();
-    // }
-  }, [firstname, lastname, title, age, phone, photo, video, popular, about])
-
-
-
-
- tg.MainButton.onClick(async ()=>{
-    if(firstname && lastname && title && age && phone && photo && video && about){
-      const data = await JSON.stringify({type: "add", firstname, lastname, title, age, phone, photo, video, popular, about});
-      tg.sendData(data)
-    }
-  })
 
   return (
     <>
