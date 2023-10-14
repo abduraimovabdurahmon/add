@@ -5,8 +5,8 @@ import { Button, Container, Form, InputGroup } from "react-bootstrap";
 import { useEffect } from "react";
 const tg = window.Telegram.WebApp;
 
-const sendData = async (firstname, lastname, title, age, phone, photo, video, about, popular) =>{
-  const data = await JSON.stringify({type: "add", firstname, lastname, title, age, phone, photo, video, popular, about});
+const sendData = async (firstname, lastname, title, age, phone, photo, video, about, popular, spec) =>{
+  const data = await JSON.stringify({type: "add", firstname, lastname, title, age, phone, photo, video, popular, about, spec});
   await tg.sendData(data);
   await tg.close()
 }
@@ -22,6 +22,7 @@ function App() {
   const [video, setVideo] = useState("");
   const [popular, setPopular] = useState(false);
   const [about, setAbout] = useState("");
+  const [spec, setSpec] = useState("");
   
 
 
@@ -75,10 +76,11 @@ function App() {
               <InputGroup.Text className="bg-primary">
                 specialty
               </InputGroup.Text>
-              <Form.Select name="spec">
-                <option>choose a specialty</option>
-                <option value="arabic">Arab tili</option>
-              </Form.Select>
+              <Form.Control placeholder="Speciality teacher" type="text" name="spec" value={spec}
+                onChange={(event)=>{
+                  setSpec(event.target.value);
+                }}
+              />
             </InputGroup>
           </Form.Group>
 
@@ -161,8 +163,8 @@ function App() {
 
           <Button className="w-100"
             onClick={async (event)=>{
-              if(firstname && lastname && title && age && phone && photo && video && about){
-                await sendData(firstname, lastname, title, age, phone, photo, video, about, popular)
+              if(firstname && lastname && title && age && phone && photo && video && about, spec){
+                await sendData(firstname, lastname, title, age, phone, photo, video, about, popular, spec)
               }
             }}
           >
